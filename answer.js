@@ -80,3 +80,44 @@ console.log(cart.getItemCount()); // 3
 console.log(cart.getTotal()); // 240
 cart.removeItem(1);
 console.log(cart.getTotal()); // 0
+
+// exercise 3
+class Timer {
+  isRunning = false;
+  startTime = null;
+  elapsedTime = 0;
+  start() {
+    if (this.isRunning) {
+      throw new Error("the timer is already running");
+    }
+    this.startTime = performance.now();
+    this.isRunning = true;
+  }
+  stop() {
+    if (!this.isRunning) {
+      throw new Error("the timer is not running");
+    }
+    this.elapsedTime += performance.now() - this.startTime;
+    this.isRunning = false;
+  }
+  reset() {
+    this.elapsedTime = 0;
+    this.startTime = null;
+    this.isRunning = false;
+  }
+  getElapsed() {
+    if (!this.isRunning) {
+      return this.elapsedTime;
+    } else {
+      return performance.now() - this.startTime + this.elapsedTime;
+    }
+  }
+}
+
+const t = new Timer();
+t.start();
+// ... some async operations ...
+t.stop();
+console.log(t.getElapsed()); // e.g., 342 (ms)
+t.reset();
+console.log(t.getElapsed()); // 0
