@@ -199,3 +199,40 @@ s.peek(); // 30
 s.pop(); // 30
 s.size(); // 2
 s.isEmpty(); // false
+
+// exercise 6
+class ConfigManager {
+  object = {};
+  defaultValues = {};
+  constructor({ theme, lang, timeout }) {
+    this.object = {
+      theme,
+      lang,
+      timeout,
+    };
+    this.defaultValues = {
+      theme,
+      lang,
+      timeout,
+    };
+  }
+
+  set(key, value) {
+    if (key in this.object) {
+      this.object[key] = value;
+    }
+  }
+  get(key) {
+    return this.object[key];
+  }
+  reset() {
+    this.object = this.defaultValues;
+  }
+}
+
+const config = new ConfigManager({ theme: "light", lang: "en", timeout: 3000 });
+config.set("theme", "dark");
+console.log(config.get("theme")); // "dark"
+console.log(config.get("lang")); // "en" (from defaults)
+config.reset("theme");
+console.log(config.get("theme")); // "light"
