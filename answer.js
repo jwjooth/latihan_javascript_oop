@@ -121,3 +121,39 @@ t.stop();
 console.log(t.getElapsed()); // e.g., 342 (ms)
 t.reset();
 console.log(t.getElapsed()); // 0
+
+// exercise 4
+class Logger {
+  logs = [];
+  info(message) {
+    this.logs.push({ level: "info", message, timestamp: new Date() });
+  }
+  warn(message) {
+    this.logs.push({ level: "warn", message, timestamp: new Date() });
+  }
+  error(message) {
+    this.logs.push({ level: "error", message, timestamp: new Date() });
+  }
+  getLogs(level) {
+    if(level){
+      for (let i = 0; i < this.logs.length; i++) {
+        if (this.logs[i].level === level) {
+          console.log(this.logs[i]);
+          break;
+        }
+      }
+    } else {
+      console.log(this.logs);
+    }
+  }
+  clear() {
+    this.logs = [];
+  }
+}
+
+const logger = new Logger();
+logger.info("Server started");
+logger.warn("Memory usage high");
+logger.error("DB connection failed");
+logger.getLogs("warn"); // [{ level: "warn", message: "Memory usage high", timestamp: ... }]
+logger.getLogs(); // all 3 entries
