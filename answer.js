@@ -236,3 +236,50 @@ console.log(config.get("theme")); // "dark"
 console.log(config.get("lang")); // "en" (from defaults)
 config.reset("theme");
 console.log(config.get("theme")); // "light"
+
+// exercise 7
+class BankAccount {
+  owner = "";
+  balance = 0;
+  statement = [];
+  constructor(owner, balance) {
+    this.owner = owner;
+    this.balance = balance;
+  }
+  deposit(amount) {
+    if (amount < 0) throw new Error("Amount must greater than 0");
+    this.balance += amount;
+    this.statement.push({
+      type: "deposit",
+      amount,
+      balanceAfter: this.balance,
+    });
+  }
+  withdraw(amount) {
+    if (amount > this.balance)
+      throw new Error("Cant withdraw more than balance");
+    if (amount < 0) throw new Error("Amount must greater than 0");
+    this.balance -= amount;
+    this.statement.push({
+      type: "withdraw",
+      amount,
+      balanceAfter: this.balance,
+    });
+  }
+  getBalance() {
+    return this.balance;
+  }
+  getStatement() {
+    return this.statement;
+  }
+}
+
+const acct = new BankAccount("Turing", 1000);
+acct.deposit(500);
+acct.withdraw(200);
+console.log(acct.getBalance()); // 1300
+console.log(acct.getStatement());
+// [
+//   { type: "deposit",  amount: 500, balanceAfter: 1500 },
+//   { type: "withdraw", amount: 200, balanceAfter: 1300 }
+// ]
