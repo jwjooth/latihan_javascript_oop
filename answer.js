@@ -135,7 +135,7 @@ class Logger {
     this.logs.push({ level: "error", message, timestamp: new Date() });
   }
   getLogs(level) {
-    if(level){
+    if (level) {
       for (let i = 0; i < this.logs.length; i++) {
         if (this.logs[i].level === level) {
           console.log(this.logs[i]);
@@ -157,3 +157,45 @@ logger.warn("Memory usage high");
 logger.error("DB connection failed");
 logger.getLogs("warn"); // [{ level: "warn", message: "Memory usage high", timestamp: ... }]
 logger.getLogs(); // all 3 entries
+
+// exercise 5
+class Stack {
+  array = [];
+  push(item) {
+    this.array.push(item);
+  }
+  pop() {
+    if (this.array.length === 0) {
+      throw new Error("the stack is empty");
+    } else {
+      console.log(this.array[this.array.length - 1]);
+      this.array.pop();
+    }
+  }
+  peek() {
+    if (this.array.length === 0) {
+      throw new Error("the stack is empty");
+    } else {
+      console.log(this.array[this.array.length - 1]);
+    }
+  }
+  isEmpty() {
+    if (this.array.length === 0) {
+      console.log(true);
+    } else {
+      console.log(false);
+    }
+  }
+  size() {
+    console.log(this.array.length);
+  }
+}
+
+const s = new Stack();
+s.push(10);
+s.push(20);
+s.push(30);
+s.peek(); // 30
+s.pop(); // 30
+s.size(); // 2
+s.isEmpty(); // false
