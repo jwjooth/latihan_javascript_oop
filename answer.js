@@ -283,3 +283,31 @@ console.log(acct.getStatement());
 //   { type: "deposit",  amount: 500, balanceAfter: 1500 },
 //   { type: "withdraw", amount: 200, balanceAfter: 1300 }
 // ]
+
+// exercise 8
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+}
+
+Person.prototype.greet = function () {
+  return `Hi, I'm ${this.name}`;
+};
+
+function Employee(name, age, role) {
+  Person.call(this, name, age);
+  this.role = role;
+}
+
+Employee.prototype = Object.create(Person.prototype);
+Employee.prototype.introduce = function () {
+  return `Hi, I'm ${this.name} and I work as a ${this.role}`;
+};
+
+Employee.prototype.constructor = Employee;
+
+const e = new Employee("Grace", 34, "Engineer");
+console.log(e.greet()); // "Hi, I'm Grace"
+console.log(e.introduce()); // "Hi, I'm Grace and I work as a Engineer"
+console.log(e instanceof Person); // true
+console.log(e instanceof Employee); // true
