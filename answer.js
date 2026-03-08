@@ -311,3 +311,45 @@ console.log(e.greet()); // "Hi, I'm Grace"
 console.log(e.introduce()); // "Hi, I'm Grace and I work as a Engineer"
 console.log(e instanceof Person); // true
 console.log(e instanceof Employee); // true
+
+// exercise 9
+class Notification {
+  constructor(type, recipient, message) {
+    this.type = type;
+    this.recipient = recipient;
+    this.message = message;
+  }
+  send() {
+    return `Sending ${this.type} to ${this.recipient}: ${this.message}`;
+  }
+  static validate({ type, recipient, message }) {
+    return [type, recipient, message].every(
+      (data) => typeof data === "string" && data.length > 0,
+    );
+  }
+  static createBatch(dataArray) {
+    const data = [];
+    for (const element of dataArray) {
+      if (Notification.validate(element)) {
+        data.push(
+          new Notification(element.type, element.recipient, element.message),
+        );
+      }
+    }
+    return data;
+  }
+}
+
+Notification.validate({
+  type: "email",
+  recipient: "a@b.com",
+  message: "Hello",
+}); // true
+Notification.validate({ type: "", recipient: "a@b.com", message: "Hello" }); // false
+
+const batch = Notification.createBatch([
+  { type: "sms", recipient: "+123", message: "Hi" },
+  { type: "", recipient: "+456", message: "Hey" }, // invalid, skip
+]);
+console.log(batch.length); // 1
+console.log(batch[0].send()); // "Sending sms to +123: Hi"
