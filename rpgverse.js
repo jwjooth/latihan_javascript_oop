@@ -227,7 +227,7 @@ class Battle {
   start() {
     if (
       !(this.party1 instanceof Party) ||
-      !(this.party2 instanceof this.party1)
+      !(this.party2 instanceof Party)
     )
       throw new BattleError("Invalid party - must be a Party instance");
     if (this.party1.length === 0 && this.party2.size === 0)
