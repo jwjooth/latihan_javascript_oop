@@ -79,7 +79,7 @@ class Character {
     const secretBonus = this.#calculateSecretBonus();
     const totalDamage = this.attackPower + secretBonus;
     console.log(
-      `${this.name} attacks ${target} for ${this.attackPower} damage!`,
+      `${this.name} attacks ${target.name} for ${totalDamage} damage!`,
     );
     target.health -= totalDamage;
   }
@@ -129,7 +129,7 @@ class Mage extends Character {
   castSpell(target) {
     if (this.manaPoints < 20)
       throw new BattleError(`${this.name} doesnt have enough mana!`);
-    const damage = (this.attackPower *= 2);
+    const damage = this.attackPower * 2;
     this.manaPoints -= 20;
     console.log(
       `${this.name} casts Arcane Blast on ${target} for ${damage} damage!`,
@@ -226,12 +226,12 @@ class Battle {
 
   start() {
     if (
-      (!this.party1) instanceof Party &&
-      (!this.party2) instanceof this.party1
+      !(this.party1 instanceof Party) ||
+      !(this.party2 instanceof this.party1)
     )
-      throw new BattleError();
-    if (this.party1.length === 0 && this.party2.length === 0)
-      throw new BattleError();
+      throw new BattleError("Invalid party - must be a Party instance");
+    if (this.party1.length === 0 && this.party2.size === 0)
+      throw new BattleError("Each party must have at least 1 member");
     try {
       console.log(
         `⚔️ Battle Start: ${this.party1.name} vs ${this.party2.name}!`,
